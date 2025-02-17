@@ -1,6 +1,17 @@
 import React from "react";
+import { Link } from "react-router";
+import { Logout } from "../../envSample";
+import { useDispatch } from "react-redux";
+import { removeUser } from "../Redux/Slices/ProfileSlice";
 
 const NavBar = () => {
+  const dispatch = useDispatch();
+
+  const LogoutFn = () => {
+    Logout();
+    dispatch(removeUser());
+  };
+
   return (
     <div>
       <div className="navbar bg-base-100">
@@ -33,15 +44,15 @@ const NavBar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a className="justify-between">
+                <Link to="/home">
                   Profile
                   <span className="badge">New</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a>Settings</a>
               </li>
-              <li>
+              <li onClick={() => LogoutFn()}>
                 <a>Logout</a>
               </li>
             </ul>
