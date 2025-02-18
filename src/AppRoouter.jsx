@@ -6,13 +6,14 @@ import { Route, Routes } from "react-router";
 import Login from "./Pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import Feed from "./Pages/Feed";
+import Profile from "./Pages/Profile";
 
 const AppRoouter = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="/login" element={<Login />} />
-
+        <Route path="/profile" element={<Profile />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<Home />} />
           <Route path="/feed" element={<Feed />} />
