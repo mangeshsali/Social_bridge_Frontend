@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Outlet } from "react-router";
 import NavBar from "../Components/NavBar";
-import axios from "axios";
-import { REACT_APP_BASE_URL } from "../../envSample";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../Redux/Slices/ProfileSlice";
+import SideBar from "../Components/SideBar";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
@@ -24,7 +22,10 @@ const MainLayout = () => {
   return (
     <div>
       <NavBar />
-      <Outlet />
+      <div className="flex gap-8">
+        <SideBar />
+        <Outlet />
+      </div>
     </div>
   );
 };

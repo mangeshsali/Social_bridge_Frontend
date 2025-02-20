@@ -1,24 +1,79 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FaEdit, FaSave } from "react-icons/fa";
+import { REACT_APP_BASE_URL } from "../../envSample";
+import axios from "axios";
 
 const Profile = () => {
   const [isEdit, setIsEdit] = useState(true);
+
+  // const [InfoData, setInfoData] = useState();
+
+  const [selectedImage, setSelectedImage] = useState(
+    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+  );
+  const ImageformData = new FormData();
+  const FileRef = useRef();
+  const OnChangeFile = (e) => {
+    const File = e.target.files[0];
+    if (File) {
+      const ImageUrl = URL.createObjectURL(File);
+      setSelectedImage(ImageUrl);
+      ImageformData.append("profile", File);
+    }
+  };
+
+  const ImageUpload = async () => {
+    try {
+      const resp = await axios.put(
+        REACT_APP_BASE_URL + "/uploadprofile",
+        ImageformData,
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success("Image Updated SucessFully");
+    } catch (error) {
+      console.log("Err", error.message);
+      toast.error("Image Upload Filed");
+    }
+  };
+
+  const onSubmitHandler = () => {
+    // FormSubmit();
+  };
 
   return (
     <div className="w-full h-screen items-center py-10">
       <div className="container mx-auto max-w-4xl flex flex-col gap-6">
         {/* Picture */}
-        <div className="flex gap-5 border items-center rounded-xl shadow-lg p-8 bg-deep-navy border-gray-800">
-          <div>
+        <div className="flex gap-5 border items-center rounded-xl shadow-lg p-8 bg-deep-navy border-gray-800 justify-between">
+          <div className="flex gap-8 items-center">
             <img
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+              src={selectedImage}
               alt="profile"
-              className="w-24 rounded-full"
+              className="w-24 rounded-full object-cover h-24"
             />
+
+            <div className="flex flex-col gap-2">
+              <p>Adity Patil</p>
+              <p>adity@gmail.com</p>
+            </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <p>Adity Patil</p>
-            <p>adity@gmail.com</p>
+
+          <div>
+            <input
+              type="file"
+              onChange={(e) => OnChangeFile(e)}
+              className="hidden"
+              ref={FileRef}
+            />
+
+            <button
+              className=" btn bg-blue-btn hover:bg-blue-btn-hover"
+              onClick={() => FileRef.current.click()}
+            >
+              Change Photo
+            </button>
           </div>
         </div>
 
