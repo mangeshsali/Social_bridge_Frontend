@@ -8,18 +8,19 @@ import Feed from "./Pages/Feed";
 import Profile from "./Pages/Profile";
 import Search from "./Pages/Search";
 import ChatPage from "./Pages/ChatPage";
+import Request from "./Pages/Request";
 
 const AppRoouter = () => {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<MainLayout />}>
-        <Route path="/login" element={<Login />} />
-
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/search" element={<Search />} />
           <Route path="/message" element={<ChatPage />} />
           <Route path="/feed" element={<Feed />} />
+          <Route path="/request" element={<Request />} />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
