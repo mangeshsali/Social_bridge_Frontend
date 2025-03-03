@@ -20,9 +20,9 @@ const MainLayout = () => {
   //   FetchProfile();
   // }, []);
   return (
-    <div>
+    <div className="container w-[80%] mx-auto">
       <NavBar />
-      <div className="flex gap-8">
+      <div className="flex ">
         <SideBar />
         <Outlet />
       </div>

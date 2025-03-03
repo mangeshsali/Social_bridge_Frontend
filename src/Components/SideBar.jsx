@@ -54,7 +54,7 @@ const SideBar = () => {
     dispatch(removeUser());
   };
   return (
-    <div className="w-2/12 bg-deep-navy  min-h-screen flex  flex-col gap-10 ">
+    <div className="w-1/4 bg-deep-navy  min-h-screen flex  flex-col gap-10 ">
       <div className="flex flex-col gap-10 mt-10 pl-6 ">
         {MenuData.map((menu) => {
           return (
