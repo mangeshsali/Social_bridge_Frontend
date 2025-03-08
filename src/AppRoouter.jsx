@@ -16,13 +16,13 @@ const AppRoouter = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Navigate to="/login" />} />
       <Route element={<MainLayout />}>
-        {/* <Route element={<ProtectedRoute />}> */}
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/message" element={<ChatPage />} />
-        <Route path="/feed" element={<Feed />} />
-        <Route path="/request" element={<Request />} />
-        {/* </Route> */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/message" element={<ChatPage />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/request" element={<Request />} />
+        </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

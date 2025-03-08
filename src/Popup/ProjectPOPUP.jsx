@@ -3,12 +3,12 @@ import { IoMdCloseCircle } from "react-icons/io";
 
 const ProjectPOPUP = ({ setProjectPopup }) => {
   const [project, setProject] = useState({
-    name: "",
-    headline: "",
-    description: "",
-    techStack: "",
-    deployLink: "",
-    githubLink: "",
+    projectName: "",
+    projectHeadline: "",
+    projectDescription: "",
+    projectStack: "",
+    projectLink: "",
+    projectGithub: "",
   });
 
   const handleChange = (e) => {
@@ -38,10 +38,10 @@ const ProjectPOPUP = ({ setProjectPopup }) => {
           {/* Project Name */}
           <input
             type="text"
-            name="name"
+            name="projectName"
             placeholder="Project Name"
             className="input input-bordered w-full"
-            value={project.name}
+            value={project.projectName}
             onChange={handleChange}
             required
           />
@@ -49,21 +49,21 @@ const ProjectPOPUP = ({ setProjectPopup }) => {
           {/* Project Headline */}
           <input
             type="text"
-            name="headline"
+            name="projectHeadline"
             placeholder="Project Headline"
             className="input input-bordered w-full"
-            value={project.headline}
+            value={project.projectHeadline}
             onChange={handleChange}
             required
           />
 
           {/* Project Description */}
           <textarea
-            name="description"
+            name="projectDescription"
             placeholder="Project Description"
             className="textarea textarea-bordered w-full"
             rows="3"
-            value={project.description}
+            value={project.projectDescription}
             onChange={handleChange}
             required
           ></textarea>
@@ -71,10 +71,10 @@ const ProjectPOPUP = ({ setProjectPopup }) => {
           {/* Tech Stack */}
           <input
             type="text"
-            name="techStack"
+            name="projectStack"
             placeholder="Tech Stack (e.g., React, Node.js)"
             className="input input-bordered w-full"
-            value={project.techStack}
+            value={project.projectStack}
             onChange={handleChange}
             required
           />
@@ -82,20 +82,20 @@ const ProjectPOPUP = ({ setProjectPopup }) => {
           {/* Deploy Link */}
           <input
             type="url"
-            name="deployLink"
+            name="projectLink"
             placeholder="Deploy Link"
             className="input input-bordered w-full"
-            value={project.deployLink}
+            value={project.projectLink}
             onChange={handleChange}
           />
 
           {/* GitHub Link */}
           <input
             type="url"
-            name="githubLink"
+            name="projectGithub"
             placeholder="GitHub Link"
             className="input input-bordered w-full"
-            value={project.githubLink}
+            value={project.projectGithub}
             onChange={handleChange}
             required
           />

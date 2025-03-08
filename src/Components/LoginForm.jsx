@@ -7,8 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import Loader from "./Loader";
 
 const LoginForm = ({ setIsLogin }) => {
+  const [isLoader, setIsLoader] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "dummy@gmail.com",
     password: "Dummy@123",
@@ -29,13 +32,17 @@ const LoginForm = ({ setIsLogin }) => {
         withCredentials: true,
       });
       toast.success("Login SucessFully");
+      setIsLoader(false);
       navigate("/feed");
       dispatch(addUser(resp.data));
     } catch (error) {
-      console.log("Err", error.message);
+      setIsLoader(false);
+      toast.error(error.response.data.message);
+      console.log("Err", error.response.data.message);
     }
   };
   const submitHandler = () => {
+    setIsLoader(true);
     console.log(formData);
     FormSubmit();
   };
@@ -96,10 +103,13 @@ const LoginForm = ({ setIsLogin }) => {
             </label>
           </div>
           <button
-            className="btn  bg-blue-btn hover:bg-blue-btn-hover  text-white font-semibold text-lg"
+            className={`btn ${
+              isLoader ? "bg-blue-500" : "bg-blue-600"
+            } hover:bg-blue-700 text-white font-semibold text-lg rounded-lg py-2`}
             onClick={submitHandler}
+            disabled={isLoader}
           >
-            Login
+            {isLoader ? <Loader /> : "Sign In"}
           </button>
 
           <h1>

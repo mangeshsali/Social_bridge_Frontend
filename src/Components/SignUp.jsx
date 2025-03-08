@@ -4,8 +4,10 @@ import { REACT_APP_BASE_URL } from "../../envSample";
 import toast from "react-hot-toast";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import Loader from "./Loader";
 const SignUp = ({ setIsLogin }) => {
   const [formData, setFormData] = useState({});
+  const [isLoader, setIsLoader] = useState(false);
 
   const [isShow, setIsShow] = useState(false);
 
@@ -16,9 +18,11 @@ const SignUp = ({ setIsLogin }) => {
       });
       toast.success("Account Created Succefully");
       setIsLogin(true);
+      setIsLoader(false);
       console.log("res", res.data);
     } catch (error) {
       console.log(error.message);
+      setIsLoader(false);
       toast.error(error.message);
     }
   };
@@ -29,7 +33,7 @@ const SignUp = ({ setIsLogin }) => {
     for (const data in formData) {
       form.append(data, formData[data]);
     }
-
+    setIsLoader(true);
     POSTSignUp(form);
   };
 
@@ -95,7 +99,7 @@ const SignUp = ({ setIsLogin }) => {
               className="file-input file-input-bordered p-2 rounded-lg  col-span-2"
               onChange={(e) => OnchangeHandler(e)}
             />
-            <input
+            {/* <input
               type="number"
               placeholder="Age"
               name="age"
@@ -114,14 +118,17 @@ const SignUp = ({ setIsLogin }) => {
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
-            </select>
+            </select> */}
           </div>
 
           <button
-            className="btn bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg rounded-lg py-2"
+            className={`btn ${
+              isLoader ? "bg-blue-500" : "bg-blue-600"
+            } hover:bg-blue-700 text-white font-semibold text-lg rounded-lg py-2`}
             onClick={SubmitHandler}
+            disabled={isLoader}
           >
-            Sign Up
+            {isLoader ? <Loader /> : "Sign Up"}
           </button>
 
           <p className="text-center text-white">

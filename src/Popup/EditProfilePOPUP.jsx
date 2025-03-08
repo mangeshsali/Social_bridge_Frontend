@@ -1,28 +1,79 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { CgClose } from "react-icons/cg";
 import { IoMdCloseCircle } from "react-icons/io";
+import { REACT_APP_BASE_URL } from "../../envSample";
+import axios from "axios";
+import Loader from "../Components/Loader";
 
-const EditProfilePOPUP = ({ setIsEdit }) => {
+const EditProfilePOPUP = ({ setIsEdit, profileData }) => {
+  const { firstName, lastName, location, skills, bio, about } =
+    profileData || {};
+  const [currentSkill, setCurrentSkills] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
-    bio: "",
-    location: "",
-    email: "",
+    firstName,
+    lastName,
+    bio,
+    location,
     skills: [],
-    about: "",
-    skillInput: "",
+    about,
   });
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleSkillChange = (e) => {};
+  const handleSkillChange = (e) => {
+    setCurrentSkills(e.target.value);
+  };
+
+  const addSkills = () => {
+    if (!profile.skills.includes(currentSkill)) {
+      setProfile((prev) => {
+        return {
+          ...prev,
+          skills: [...profile.skills, currentSkill],
+        };
+      });
+
+      setCurrentSkills("");
+    } else {
+      setCurrentSkills("");
+      toast.error("Already Present");
+    }
+  };
+
+  const removeSkills = (skill) => {
+    const UpdatedSkills = profile.skills.filter((tech) => tech !== skill);
+    setProfile((prev) => ({ ...prev, skills: UpdatedSkills }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Profile Data:", profile);
+    setIsLoading(true);
+    POSTUpdateProfile();
   };
 
+  const POSTUpdateProfile = async () => {
+    try {
+      const resp = await axios.put(
+        REACT_APP_BASE_URL + "/updateinfo",
+        profile,
+        { withCredentials: true }
+      );
+
+      setIsLoading(false);
+      toast.success("Update Successfully");
+    } catch (error) {
+      console.log(error.message);
+      setIsEdit(false);
+      setIsLoading(false);
+      toast.error(error.message);
+    }
+  };
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-deep-navy p-6 rounded-lg shadow-lg w-[500px] relative ">
@@ -77,15 +128,13 @@ const EditProfilePOPUP = ({ setIsEdit }) => {
             value={profile.location}
             onChange={handleChange}
           />
-          <input
+          {/* <input
             type="email"
-            name="email"
             placeholder="Email"
             className="input input-bordered w-full"
             value={profile.email}
-            onChange={handleChange}
-            required
-          />
+            disabled={true}
+          /> */}
 
           {/* Skills */}
           <div>
@@ -93,11 +142,16 @@ const EditProfilePOPUP = ({ setIsEdit }) => {
               <input
                 type="text"
                 placeholder="Add a skill"
+                name="skills"
                 className="input input-bordered w-full"
-                value={profile.skillInput}
+                value={currentSkill}
                 onChange={handleSkillChange}
               />
-              <button type="button" className="btn btn-primary">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={addSkills}
+              >
                 Add
               </button>
             </div>
@@ -106,6 +160,7 @@ const EditProfilePOPUP = ({ setIsEdit }) => {
                 <span
                   key={index}
                   className="badge badge-primary cursor-pointer"
+                  onClick={() => removeSkills(skill)}
                 >
                   {skill} ✕
                 </span>
@@ -125,8 +180,15 @@ const EditProfilePOPUP = ({ setIsEdit }) => {
 
           {/* Buttons */}
           <div className="flex justify-end gap-3 mt-3">
-            <button type="submit" className="btn btn-primary">
-              Save Changes
+            <button
+              type="submit"
+              className={`btn ${
+                isLoading ? "bg-blue-500" : "bg-blue-600"
+              } hover:bg-blue-700 text-white font-semibold text-lg rounded-lg py-2`}
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? <Loader /> : "Save Changes"}
             </button>
           </div>
         </form>
