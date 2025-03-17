@@ -20,11 +20,17 @@ const MainLayout = () => {
   //   FetchProfile();
   // }, []);
   return (
-    <div className="container w-[80%] mx-auto">
+    <div className="">
       <NavBar />
-      <div className="flex ">
-        <SideBar />
-        <Outlet />
+      <div className="container mx-auto w-[1120px]">
+        <div className="flex w-full">
+          <div className="w-[20%] sticky top-0 h-sreen">
+            <SideBar />
+          </div>
+          <div className="w-[80%] p-10  overflow-y-scroll h-screen thin-scrollbar">
+            <Outlet />
+          </div>
+        </div>
       </div>
     </div>
   );

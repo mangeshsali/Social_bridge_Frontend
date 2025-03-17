@@ -24,7 +24,7 @@ const ProfileTabs = () => {
   const ActiveTabComponent = Tabs[currentIndexTab].Component;
 
   return (
-    <div className="w-full flex justify-center flex-col items-center  p-4 gap-5">
+    <div className="w-full flex justify-center flex-col items-center gap-5">
       <div className="flex gap-14">
         {Tabs.map((tab, key) => (
           <p

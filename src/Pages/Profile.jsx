@@ -213,7 +213,7 @@ const Profile = () => {
     //   </div>
     // </div>
 
-    <div className="w-full">
+    <div className="w-full space-y-8">
       <BasicProfileInfo />
 
       <ProfileTabs />

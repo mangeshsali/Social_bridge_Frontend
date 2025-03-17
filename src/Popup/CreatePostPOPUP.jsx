@@ -1,17 +1,59 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { IoMdCloseCircle } from "react-icons/io";
+import { IoMdClose, IoMdCloseCircle } from "react-icons/io";
+import { REACT_APP_BASE_URL } from "../../envSample";
+import toast from "react-hot-toast";
 
 const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
   const [post, setPost] = useState({
-    description: "",
-    media: null,
+    post: "",
+    Image: null,
   });
-  const handleDescriptionChange = (e) => {};
+  const [previewImage, setPreviewImage] = useState(null);
+  const [Loading, setLoading] = useState(false);
 
-  const handleMediaChange = (e) => {};
+  const handleDescriptionChange = (e) => {
+    const { name, value } = e.target;
+    setPost((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const POSTCreate = async (formData) => {
+    try {
+      const res = await axios.post(REACT_APP_BASE_URL + "/post", formData, {
+        withCredentials: true,
+      });
+
+      toast.success("Post Created Suceessfully");
+      setCreatePopstPopup(false);
+      setLoading(false);
+    } catch (error) {
+      console.log("err", error.messagae);
+    }
+  };
+
+  const handleMediaChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setPost((prev) => ({ ...prev, Image: file }));
+
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("post", post.post);
+    formData.append("Image", post.Image);
+    setLoading(true);
+    POSTCreate(formData);
+  };
+
+  const RemoveImage = () => {
+    setPost((prev) => ({ ...prev, Image: null }));
   };
 
   return (
@@ -29,11 +71,11 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           {/* Description */}
           <textarea
-            name="description"
+            name="post"
             placeholder="Write something..."
             className="textarea textarea-bordered w-full"
             rows="3"
-            value={post.description}
+            value={post.post}
             onChange={handleDescriptionChange}
             required
           ></textarea>
@@ -50,20 +92,30 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
           </label>
 
           {/* Preview */}
-          {post.media && (
-            <div className="mt-3">
+          {post.Image && (
+            <div className="mt-3  relative">
               <p className="text-sm font-medium">Preview:</p>
               <img
-                src={post.media}
+                src={previewImage}
                 alt="Media Preview"
-                className="mt-2 w-full h-[200px] object-cover rounded-lg"
+                className="mt-2 w-full h-[200px] object-contain rounded-lg"
               />
+              <div className=" absolute  top-0 right-0">
+                <IoMdCloseCircle
+                  className="text-2xl cursor-pointer"
+                  onClick={RemoveImage}
+                />
+              </div>
             </div>
           )}
 
           {/* Buttons */}
           <div className="flex justify-end gap-3 mt-3">
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={Loading}
+            >
               Post
             </button>
           </div>

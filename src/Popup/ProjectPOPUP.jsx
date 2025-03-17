@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
+import { ErrorHandling } from "../Utils/ErrorHandling";
+import axios from "axios";
+import { REACT_APP_BASE_URL } from "../../envSample";
+import toast from "react-hot-toast";
 
 const ProjectPOPUP = ({ setProjectPopup }) => {
   const [project, setProject] = useState({
@@ -15,13 +19,25 @@ const ProjectPOPUP = ({ setProjectPopup }) => {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
+  const POSTProject = async () => {
+    try {
+      const res = await axios.post(REACT_APP_BASE_URL + "/project", project, {
+        withCredentials: true,
+      });
+      setProjectPopup(false);
+      toast.success("Project Created Successfully");
+    } catch (error) {
+      ErrorHandling(error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Project Data:", project);
+    POSTProject();
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
       <div className="bg-deep-navy p-6 rounded-lg shadow-lg w-[480px] relative">
         <h2 className="text-2xl font-semibold  mb-6">Add Project</h2>
 

@@ -21,3 +21,11 @@
     transform: rotate(360deg);
   }
 }
+
+/* Scroll */
+
+/* For Firefox */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent; /* Colored thumb, transparent track */
+}

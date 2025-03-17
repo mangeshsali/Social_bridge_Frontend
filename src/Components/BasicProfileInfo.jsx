@@ -48,7 +48,7 @@ const BasicProfileInfo = () => {
   };
 
   return (
-    <div className="  p-4 flex flex-col gap-6 relative">
+    <div className=" flex flex-col gap-6 relative">
       <div className="  flex  flex-col  items-center gap-6">
         <div className=" relative">
           <img src={profile} className=" w-32 h-32 border rounded-full" />
