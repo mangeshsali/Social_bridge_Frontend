@@ -47,7 +47,7 @@ const Feed = () => {
           })
         )}
       </div>
-      <div className=" bg-deep-navy h-screen w-[40%]"></div>
+      {/* <div className=" bg-deep-navy h-screen w-[40%]"></div> */}
 
       {isPOPUP && <CreatePostPOPUP setCreatePopstPopup={setIsPOPUP} />}
     </div>
