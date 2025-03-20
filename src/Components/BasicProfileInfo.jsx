@@ -12,12 +12,14 @@ import { REACT_APP_BASE_URL, TECH_ICONS_CDN } from "../../envSample";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useSearchParams } from "react-router";
+import { ErrorHandling } from "../Utils/ErrorHandling";
 
 const BasicProfileInfo = () => {
   const [isEdit, setIsEdit] = useState(false);
   const fileRef = useRef();
 
   const [profileData, setProfileData] = useState(null);
+  const [updatedProfile, setUpdatedProfile] = useState(null);
 
   const { firstName, lastName, email, location, bio, about, profile, skills } =
     profileData || {};
@@ -35,23 +37,50 @@ const BasicProfileInfo = () => {
     }
   };
 
+  const PUTProfileUpdate = async (formData) => {
+    try {
+      const res = await axios.put(
+        REACT_APP_BASE_URL + "/uploadprofile",
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      toast.success("Profile Updated Suceessfully");
+    } catch (error) {
+      ErrorHandling(error);
+    }
+  };
+
   useEffect(() => {
     GETProfileInfo();
   }, []);
 
   const fileonChange = (e) => {
-    console.log(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("profile", file);
+      PUTProfileUpdate(formData);
+      setUpdatedProfile(URL.createObjectURL(file));
+    }
   };
 
   const fileClickHandler = () => {
     fileRef.current.click();
   };
 
+  console.log("df", updatedProfile);
+
   return (
     <div className=" flex flex-col gap-6 relative">
       <div className="  flex  flex-col  items-center gap-6">
         <div className=" relative">
-          <img src={profile} className=" w-32 h-32 border rounded-full" />
+          <img
+            src={updatedProfile || profile}
+            className=" w-32 h-32 border rounded-full object-cover"
+          />
           <input
             type="file"
             onChange={(e) => fileonChange(e)}

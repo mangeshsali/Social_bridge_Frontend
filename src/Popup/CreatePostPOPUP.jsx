@@ -1,10 +1,15 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { IoMdClose, IoMdCloseCircle } from "react-icons/io";
+import React, { useRef, useState } from "react";
+import { IoMdClose, IoMdCloseCircle, IoMdPhotos } from "react-icons/io";
 import { REACT_APP_BASE_URL } from "../../envSample";
 import toast from "react-hot-toast";
+import { MdOutlinePostAdd } from "react-icons/md";
+import { FaPencilAlt, FaVideo } from "react-icons/fa";
+import { ErrorHandling } from "../Utils/ErrorHandling";
 
 const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
+  const fileRef = useRef();
+
   const [post, setPost] = useState({
     post: "",
     Image: null,
@@ -28,6 +33,8 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
       setLoading(false);
     } catch (error) {
       console.log("err", error.messagae);
+      ErrorHandling(error);
+      setLoading(false);
     }
   };
 
@@ -58,7 +65,7 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-deep-navy p-6 rounded-lg shadow-lg w-[400px] relative">
+      <div className="bg-deep-navy p-6 rounded-lg shadow-lg w-[550px]  relative">
         <h2 className="text-xl font-semibold my-4">Create Post</h2>
 
         <div
@@ -73,7 +80,7 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
           <textarea
             name="post"
             placeholder="Write something..."
-            className="textarea textarea-bordered w-full"
+            className="w-full h-[200px] p-4"
             rows="3"
             value={post.post}
             onChange={handleDescriptionChange}
@@ -81,7 +88,7 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
           ></textarea>
 
           {/* Media Upload */}
-          <label className="block">
+          {/* <label className="block">
             <span className="font-medium ">Attach Media:</span>
             <input
               type="file"
@@ -89,7 +96,23 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
               className="file-input file-input-bordered w-full mt-2"
               onChange={handleMediaChange}
             />
-          </label>
+          </label> */}
+          <input
+            type="file"
+            onChange={(e) => handleMediaChange(e)}
+            className="hidden"
+            ref={fileRef}
+          />
+
+          <div
+            className="flex gap-5 text-2xl cursor-pointer   items-center px-2"
+            onClick={() => fileRef.current.click()}
+          >
+            <MdOutlinePostAdd />
+            <FaPencilAlt />
+            <FaVideo />
+            <IoMdPhotos />
+          </div>
 
           {/* Preview */}
           {post.Image && (
@@ -98,7 +121,7 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
               <img
                 src={previewImage}
                 alt="Media Preview"
-                className="mt-2 w-full h-[200px] object-contain rounded-lg"
+                className="mt-2 w-full h-[150px] object-contain rounded-lg"
               />
               <div className=" absolute  top-0 right-0">
                 <IoMdCloseCircle

@@ -22,7 +22,7 @@ const MainLayout = () => {
   return (
     <div className="">
       <NavBar />
-      <div className="container mx-auto w-[1120px]">
+      <div className="container mx-auto w-[1120px] overflow-s">
         <div className="flex w-full">
           <div className="w-[20%] sticky top-0 h-sreen">
             <SideBar />

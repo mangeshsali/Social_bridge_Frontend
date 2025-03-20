@@ -1,9 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 import CreatePostPOPUP from "../../Popup/CreatePostPOPUP";
+import { ErrorHandling } from "../../Utils/ErrorHandling";
+import axios from "axios";
+import { REACT_APP_BASE_URL } from "../../../envSample";
 
 const Posts = () => {
   const [createPostPopup, setCreatePopstPopup] = useState(false);
+  const [UserPostData, setUserPostData] = useState([]);
+
+  const GETUserPost = async () => {
+    try {
+      const res = await axios.get(REACT_APP_BASE_URL + "/post", {
+        withCredentials: true,
+      });
+      setUserPostData(res.data.posts);
+    } catch (error) {
+      console.log(error.message);
+      ErrorHandling(error);
+    }
+  };
+
+  useEffect(() => {
+    GETUserPost();
+  }, []);
   return (
     <div className=" flex flex-col ">
       <div className="flex  justify-end">
@@ -18,8 +38,11 @@ const Posts = () => {
       {createPostPopup && (
         <CreatePostPOPUP setCreatePopstPopup={setCreatePopstPopup} />
       )}
-      <div className="p-6">
-        <PostCard />
+      <div className="p-6 space-y-4">
+        {UserPostData &&
+          UserPostData.map((post) => {
+            return <PostCard postData={post} />;
+          })}
       </div>
     </div>
   );
