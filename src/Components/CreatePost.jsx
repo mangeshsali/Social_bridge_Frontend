@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import { FaPencilAlt, FaVideo } from "react-icons/fa";
 import { IoMdPhotos } from "react-icons/io";
 import { MdOutlinePostAdd } from "react-icons/md";
+import { useSelector } from "react-redux";
+import store from "../Redux/Store";
 
 const CreatePost = () => {
+  const Profile = useSelector((store) => store.Profile.profile);
+  console.log("s", Profile);
   return (
     <div className="border flex flex-col gap-2 rounded-md p-4 border-gray-800">
       <div className=" flex  gap-4 ">
         <img
-          src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+          src={Profile}
           className="w-[50px]  h-[50px] object-contain rounded-full"
         />
 
