@@ -9,7 +9,7 @@ const CreatePost = () => {
   const Profile = useSelector((store) => store.Profile.profile);
   console.log("s", Profile);
   return (
-    <div className="border flex flex-col gap-2 rounded-md p-4 border-gray-800">
+    <div className="border flex flex-col gap-2 rounded-md p-4 border-gray-800 max-w-2xl">
       <div className=" flex  gap-4 ">
         <img
           src={Profile}

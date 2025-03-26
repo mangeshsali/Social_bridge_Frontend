@@ -6,7 +6,6 @@ const PostCard = ({ postData }) => {
   const { post, Image, Like, Comment, userId, isLike } = postData || {};
   const { lastName, firstName, bio, profile } = userId || {};
 
-  console.log("single", postData);
   return (
     <div className="flex flex-col gap-4 p-6 border border-gray-700 rounded-lg shadow-md bg-gray-900 max-w-2xl w-full text-white">
       {/* Profile */}

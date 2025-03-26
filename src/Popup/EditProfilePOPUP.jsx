@@ -64,7 +64,7 @@ const EditProfilePOPUP = ({ setIsEdit, profileData }) => {
         profile,
         { withCredentials: true }
       );
-
+      setIsEdit(false);
       setIsLoading(false);
       toast.success("Update Successfully");
     } catch (error) {

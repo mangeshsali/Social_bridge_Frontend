@@ -28,7 +28,7 @@ const Feed = () => {
   console.log("r", posts);
   return (
     <div className="w-full min-h-screen  items-center flex">
-      <div className="  w-full min-h-screen flex   flex-col">
+      <div className="  w-full min-h-screen flex   flex-col ">
         <div onClick={() => setIsPOPUP(true)} className=" cursor-pointer">
           <CreatePost />
         </div>

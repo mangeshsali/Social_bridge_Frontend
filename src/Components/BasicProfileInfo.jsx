@@ -11,8 +11,8 @@ import { FaEdit } from "react-icons/fa";
 import { REACT_APP_BASE_URL, TECH_ICONS_CDN } from "../../envSample";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useSearchParams } from "react-router";
 import { ErrorHandling } from "../Utils/ErrorHandling";
+import ConnectionPOPUP from "../Popup/ConnectionPOPUP";
 
 const BasicProfileInfo = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -20,6 +20,7 @@ const BasicProfileInfo = () => {
 
   const [profileData, setProfileData] = useState(null);
   const [updatedProfile, setUpdatedProfile] = useState(null);
+  const [isConnectionOpen, setIsconnectionOpen] = useState(false);
 
   const { firstName, lastName, email, location, bio, about, profile, skills } =
     profileData || {};
@@ -99,7 +100,10 @@ const BasicProfileInfo = () => {
           <h1 className=" font-bold  text-xl">{firstName + " " + lastName}</h1>
           <p>{bio}</p>
           <div className="flex gap-6 ">
-            <p className="flex items-center gap-2 cursor-pointer text-md font-semibold">
+            <p
+              className="flex items-center gap-2 cursor-pointer text-md font-semibold"
+              onClick={() => setIsconnectionOpen(true)}
+            >
               <span>
                 <FiUsers />
               </span>
@@ -159,6 +163,10 @@ const BasicProfileInfo = () => {
 
       {isEdit && (
         <EditProfilePOPUP setIsEdit={setIsEdit} profileData={profileData} />
+      )}
+
+      {isConnectionOpen && (
+        <ConnectionPOPUP setIsconnectionOpen={setIsconnectionOpen} />
       )}
     </div>
   );

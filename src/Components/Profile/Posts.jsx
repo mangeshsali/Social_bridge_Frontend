@@ -38,7 +38,7 @@ const Posts = () => {
       {createPostPopup && (
         <CreatePostPOPUP setCreatePopstPopup={setCreatePopstPopup} />
       )}
-      <div className="p-6 space-y-4">
+      <div className="p-6 space-y-4  items-center flex-col flex">
         {UserPostData &&
           UserPostData.map((post) => {
             return <PostCard postData={post} />;
