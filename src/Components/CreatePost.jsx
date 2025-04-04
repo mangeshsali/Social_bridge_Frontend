@@ -6,8 +6,7 @@ import { useSelector } from "react-redux";
 import store from "../Redux/Store";
 
 const CreatePost = () => {
-  const Profile = useSelector((store) => store.Profile.profile);
-  console.log("s", Profile);
+  const Profile = useSelector((store) => store.Profile?.profile);
   return (
     <div className="border flex flex-col gap-2 rounded-md p-4 border-gray-800 max-w-2xl">
       <div className=" flex  gap-4 ">

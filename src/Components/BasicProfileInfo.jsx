@@ -22,8 +22,17 @@ const BasicProfileInfo = () => {
   const [updatedProfile, setUpdatedProfile] = useState(null);
   const [isConnectionOpen, setIsconnectionOpen] = useState(false);
 
-  const { firstName, lastName, email, location, bio, about, profile, skills } =
-    profileData || {};
+  const {
+    firstName,
+    lastName,
+    email,
+    location,
+    bio,
+    about,
+    profile,
+    skills,
+    connection,
+  } = profileData || {};
 
   const GETProfileInfo = async () => {
     try {
@@ -72,7 +81,7 @@ const BasicProfileInfo = () => {
     fileRef.current.click();
   };
 
-  console.log("df", updatedProfile);
+  // console.log("df", updatedProfile);
 
   return (
     <div className=" flex flex-col gap-6 relative">
@@ -107,7 +116,7 @@ const BasicProfileInfo = () => {
               <span>
                 <FiUsers />
               </span>
-              5 Connections
+              {connection?.length || 0} Connections
             </p>
             <p className="flex items-center gap-2 cursor-pointer text-md font-semibold">
               <span>

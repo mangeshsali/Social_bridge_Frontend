@@ -35,9 +35,13 @@ const LoginForm = ({ setIsLogin }) => {
       setIsLoader(false);
       navigate("/feed");
       dispatch(addUser(resp.data));
+
+      for (let detail in resp.data) {
+        localStorage.setItem(detail, resp.data[detail]);
+      }
     } catch (error) {
       setIsLoader(false);
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
       console.log("Err", error.response.data.message);
     }
   };

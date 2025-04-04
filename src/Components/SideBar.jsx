@@ -8,13 +8,14 @@ import {
   FaUserPlus,
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { removeUser } from "../Redux/Slices/ProfileSlice";
 import { Logout } from "../../envSample";
 import { IoLogOutOutline } from "react-icons/io5";
 
 const SideBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const MenuData = [
     {
       title: "Home",
@@ -51,6 +52,8 @@ const SideBar = () => {
 
   const LogoutFn = () => {
     Logout();
+    localStorage.clear();
+    navigate("/");
     dispatch(removeUser());
   };
   return (

@@ -12,9 +12,12 @@ const Feed = () => {
 
   const GETFeed = async () => {
     try {
-      const res = await axios.get(REACT_APP_BASE_URL + "/feed", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        REACT_APP_BASE_URL + "/feed?limit=20&page=1",
+        {
+          withCredentials: true,
+        }
+      );
       setPosts(res.data);
     } catch (error) {
       console.log(error.message);
