@@ -69,7 +69,7 @@ const SocialConnect = () => {
 
       {/* Input Field */}
 
-      {!githubData && (
+      {!githubData ? (
         <div className="form-control w-[70%]  flex items-start  gap-4 flex-row justify-center">
           <div className="flex-1  items-center">
             <label className="input input-bordered flex items-center gap-2">
@@ -108,9 +108,7 @@ const SocialConnect = () => {
             Submit
           </button>
         </div>
-      )}
-
-      {githubData && (
+      ) : (
         <div className="flex flex-col gap-4">
           <p>64 Contributions</p>
           <div className="border flex justify-center py-6 rounded-lg border-gray-700">
@@ -126,7 +124,7 @@ const SocialConnect = () => {
           <p>Recent Repo</p>
           <div className="grid grid-cols-2 gap-y-4">
             {githubData &&
-              githubData?.repoData.map((github) => {
+              githubData?.repoData?.map((github) => {
                 return <GithubRepo githubData={github} />;
               })}
           </div>

@@ -7,7 +7,7 @@ import { MdOutlinePostAdd } from "react-icons/md";
 import { FaPencilAlt, FaVideo } from "react-icons/fa";
 import { ErrorHandling } from "../Utils/ErrorHandling";
 
-const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
+const CreatePostPOPUP = ({ setCreatePopstPopup, refreshResult }) => {
   const fileRef = useRef();
 
   const [post, setPost] = useState({
@@ -30,6 +30,7 @@ const CreatePostPOPUP = ({ setCreatePopstPopup }) => {
 
       toast.success("Post Created Suceessfully");
       setCreatePopstPopup(false);
+      refreshResult();
       setLoading(false);
     } catch (error) {
       console.log("err", error.messagae);

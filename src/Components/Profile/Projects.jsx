@@ -39,7 +39,11 @@ const Projects = () => {
 
       <div className="flex flex-col gap-4">
         {!ProjectList ? (
-          <p>No Project Found Add Project </p>
+          <div className="flex justify-center my-10">
+            <p className="font-semibold text-lg">
+              No Project Found Add Project
+            </p>
+          </div>
         ) : (
           ProjectList &&
           ProjectList.map((project) => {
@@ -47,7 +51,12 @@ const Projects = () => {
           })
         )}
       </div>
-      {ProjectPopup && <ProjectPOPUP setProjectPopup={setProjectPopup} />}
+      {ProjectPopup && (
+        <ProjectPOPUP
+          setProjectPopup={setProjectPopup}
+          refreshProjects={GETProjectList}
+        />
+      )}
     </div>
   );
 };

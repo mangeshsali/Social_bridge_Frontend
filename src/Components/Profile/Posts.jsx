@@ -36,7 +36,10 @@ const Posts = () => {
       </div>
 
       {createPostPopup && (
-        <CreatePostPOPUP setCreatePopstPopup={setCreatePopstPopup} />
+        <CreatePostPOPUP
+          setCreatePopstPopup={setCreatePopstPopup}
+          refreshResult={GETUserPost}
+        />
       )}
       <div className="p-6 space-y-4  items-center flex-col flex">
         {UserPostData &&

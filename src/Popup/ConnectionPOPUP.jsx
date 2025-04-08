@@ -11,7 +11,7 @@ const ConnectionPOPUP = ({ setIsconnectionOpen }) => {
       const resp = await axios.get(REACT_APP_BASE_URL + "/connections", {
         withCredentials: true,
       });
-      setConnectionList(resp.data);
+      setConnectionList(resp.data.result);
     } catch (error) {
       ErrorHandling(error);
     }

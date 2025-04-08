@@ -5,7 +5,7 @@ import axios from "axios";
 import { REACT_APP_BASE_URL } from "../../envSample";
 import toast from "react-hot-toast";
 
-const ProjectPOPUP = ({ setProjectPopup }) => {
+const ProjectPOPUP = ({ setProjectPopup, refreshProjects }) => {
   const [project, setProject] = useState({
     projectName: "",
     projectHeadline: "",
@@ -24,6 +24,7 @@ const ProjectPOPUP = ({ setProjectPopup }) => {
       const res = await axios.post(REACT_APP_BASE_URL + "/project", project, {
         withCredentials: true,
       });
+      refreshProjects();
       setProjectPopup(false);
       toast.success("Project Created Successfully");
     } catch (error) {

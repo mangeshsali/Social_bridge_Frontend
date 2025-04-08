@@ -36,23 +36,29 @@ const Feed = () => {
           <CreatePost />
         </div>
 
-        {posts && posts.length === 0 ? (
-          <div>
-            <p>NO POSTS FOUND MAKE A CONNECTION FIRST</p>
+        {!Array.isArray(posts) ? (
+          <div className="flex justify-center my-10">
+            <p className="font-semibold text-lg">
+              NO POSTS FOUND MAKE A CONNECTION FIRST
+            </p>
           </div>
         ) : (
-          posts.map((post) => {
-            return (
-              <div className=" mt-5">
-                <PostCard postData={post} />
-              </div>
-            );
-          })
+          Array.isArray(posts) &&
+          posts.map((post) => (
+            <div key={post.id} className="mt-5">
+              <PostCard postData={post} />
+            </div>
+          ))
         )}
       </div>
       {/* <div className=" bg-deep-navy h-screen w-[40%]"></div> */}
 
-      {isPOPUP && <CreatePostPOPUP setCreatePopstPopup={setIsPOPUP} />}
+      {isPOPUP && (
+        <CreatePostPOPUP
+          setCreatePopstPopup={setIsPOPUP}
+          refreshResult={GETFeed}
+        />
+      )}
     </div>
   );
 };
