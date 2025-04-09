@@ -4,18 +4,33 @@ import ProjectCards from "./ProjectCards";
 import { ErrorHandling } from "../../Utils/ErrorHandling";
 import axios from "axios";
 import { REACT_APP_BASE_URL } from "../../../envSample";
+import toast from "react-hot-toast";
 
 const Projects = () => {
   const [ProjectPopup, setProjectPopup] = useState(false);
   const [ProjectList, setProjectList] = useState([]);
+  const [EditProject, setEditProject] = useState(null);
 
   const GETProjectList = async () => {
     try {
       const res = await axios.get(REACT_APP_BASE_URL + "/projectlist", {
         withCredentials: true,
       });
-      console.log(res.data.project);
       setProjectList(res?.data?.project);
+    } catch (error) {
+      ErrorHandling(error);
+    }
+  };
+
+  const DeleteHandler = async (id) => {
+    try {
+      const resp = await axios.delete(
+        REACT_APP_BASE_URL + `/deleteproject/${id}`,
+        { withCredentials: true }
+      );
+      setProjectList((prev) => prev.filter((project) => project._id != id));
+      setProjectPopup(false);
+      toast.success("Deleted Successfully");
     } catch (error) {
       ErrorHandling(error);
     }
@@ -25,7 +40,10 @@ const Projects = () => {
     GETProjectList();
   }, []);
 
-  console.log(ProjectList);
+  const EditData = (project) => {
+    setProjectPopup(true);
+    setEditProject(project);
+  };
   return (
     <div className=" flex flex-col gap-6">
       <div className="flex  justify-end">
@@ -47,7 +65,14 @@ const Projects = () => {
         ) : (
           ProjectList &&
           ProjectList.map((project) => {
-            return <ProjectCards Project={project} />;
+            return (
+              <ProjectCards
+                Project={project}
+                DeleteHandler={DeleteHandler}
+                setProjectPopup={setProjectPopup}
+                EditData={EditData}
+              />
+            );
           })
         )}
       </div>
@@ -55,6 +80,7 @@ const Projects = () => {
         <ProjectPOPUP
           setProjectPopup={setProjectPopup}
           refreshProjects={GETProjectList}
+          EditProject={EditProject}
         />
       )}
     </div>

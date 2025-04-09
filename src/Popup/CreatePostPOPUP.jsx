@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoMdClose, IoMdCloseCircle, IoMdPhotos } from "react-icons/io";
 import { REACT_APP_BASE_URL } from "../../envSample";
 import toast from "react-hot-toast";
@@ -7,7 +7,7 @@ import { MdOutlinePostAdd } from "react-icons/md";
 import { FaPencilAlt, FaVideo } from "react-icons/fa";
 import { ErrorHandling } from "../Utils/ErrorHandling";
 
-const CreatePostPOPUP = ({ setCreatePopstPopup, refreshResult }) => {
+const CreatePostPOPUP = ({ setCreatePopstPopup, refreshResult, EditPost }) => {
   const fileRef = useRef();
 
   const [post, setPost] = useState({
@@ -39,6 +39,35 @@ const CreatePostPOPUP = ({ setCreatePopstPopup, refreshResult }) => {
     }
   };
 
+  const PUTPost = async (formData) => {
+    try {
+      const res = await axios.put(
+        REACT_APP_BASE_URL + `/post/${EditPost._id}`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      toast.success("Post Updated Suceessfully");
+      setCreatePopstPopup(false);
+      setLoading(false);
+    } catch (error) {
+      console.log("err", error.messagae);
+      ErrorHandling(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (EditPost) {
+      setPost({
+        post: EditPost.post,
+        Image: EditPost.Image,
+      });
+    }
+  }, [EditPost]);
+
   const handleMediaChange = (e) => {
     const file = e.target.files[0];
 
@@ -56,8 +85,9 @@ const CreatePostPOPUP = ({ setCreatePopstPopup, refreshResult }) => {
 
     formData.append("post", post.post);
     formData.append("Image", post.Image);
+
     setLoading(true);
-    POSTCreate(formData);
+    EditPost ? PUTPost(formData) : POSTCreate(formData);
   };
 
   const RemoveImage = () => {
@@ -65,7 +95,7 @@ const CreatePostPOPUP = ({ setCreatePopstPopup, refreshResult }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-deep-navy p-6 rounded-lg shadow-lg w-[550px]  relative">
         <h2 className="text-xl font-semibold my-4">Create Post</h2>
 

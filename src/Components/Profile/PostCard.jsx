@@ -13,10 +13,10 @@ import axios from "axios";
 import { REACT_APP_BASE_URL } from "../../../envSample";
 import useClickOutside from "../../Utils/useClickOutside";
 
-const PostCard = ({ postData }) => {
+const PostCard = ({ postData, DeleteHandler, EditData }) => {
   const [currentPost, setCurrentPost] = useState(postData);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // To manage the dropdown state
-  const menuRef = useRef(null); // Reference for detecting clicks outside
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
   const { post, Image, Like, Comment, userId, isLike, _id } = currentPost || {};
   const { lastName, firstName, bio, profile } = userId || {};
 
@@ -29,7 +29,6 @@ const PostCard = ({ postData }) => {
           withCredentials: true,
         }
       );
-      // setCurrentPost((prev) => ({ ...prev, Like: resp.data.Like }));
     } catch (error) {
       ErrorHandling(error);
     }
@@ -40,15 +39,13 @@ const PostCard = ({ postData }) => {
     POSTLike(id);
   };
 
-  // Close the menu when clicking outside
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   useClickOutside(menuRef, toggleMenu);
 
   return (
-    <div className="relative flex flex-col gap-4 p-6 border border-gray-700 rounded-lg shadow-md bg-gray-900 max-w-2xl w-full text-white">
+    <div className="relative flex flex-col z-0 gap-4 p-6 border border-gray-700 rounded-lg shadow-md bg-gray-900 max-w-2xl w-full text-white">
       {/* Profile */}
       <div className=" flex justify-between">
         <div className="flex gap-4 items-center">
@@ -84,13 +81,19 @@ const PostCard = ({ postData }) => {
           >
             <ul className="text-gray-700">
               {/* Edit Action */}
-              <li className="cursor-pointer hover:bg-gray-100 p-2 rounded-md flex items-center gap-2">
+              <li
+                className="cursor-pointer hover:bg-gray-100 p-2 rounded-md flex items-center gap-2"
+                onClick={() => EditData(currentPost)}
+              >
                 <FaEdit />
                 Edit
               </li>
 
               {/* Delete Action */}
-              <li className="cursor-pointer hover:bg-gray-100 p-2 rounded-md flex items-center gap-2">
+              <li
+                className="cursor-pointer hover:bg-gray-100 p-2 rounded-md flex items-center gap-2"
+                onClick={() => DeleteHandler(_id)}
+              >
                 <FaTrashAlt />
                 Delete
               </li>

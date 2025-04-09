@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import { ErrorHandling } from "../Utils/ErrorHandling";
 import axios from "axios";
 import { REACT_APP_BASE_URL } from "../../envSample";
 import toast from "react-hot-toast";
 
-const ProjectPOPUP = ({ setProjectPopup, refreshProjects }) => {
+const ProjectPOPUP = ({ setProjectPopup, refreshProjects, EditProject }) => {
   const [project, setProject] = useState({
     projectName: "",
     projectHeadline: "",
@@ -18,6 +18,19 @@ const ProjectPOPUP = ({ setProjectPopup, refreshProjects }) => {
   const handleChange = (e) => {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    if (EditProject) {
+      setProject({
+        projectName: EditProject.projectName,
+        projectHeadline: EditProject.projectHeadline,
+        projectDescription: EditProject.projectDescription,
+        projectStack: EditProject.projectStack,
+        projectLink: EditProject.projectLink,
+        projectGithub: EditProject.projectGithub,
+      });
+    }
+  }, [EditProject]);
 
   const POSTProject = async () => {
     try {
@@ -32,9 +45,31 @@ const ProjectPOPUP = ({ setProjectPopup, refreshProjects }) => {
     }
   };
 
+  const PUTProject = async () => {
+    try {
+      const res = await axios.put(
+        REACT_APP_BASE_URL + `/project/${EditProject._id}`,
+        project,
+        {
+          withCredentials: true,
+        }
+      );
+      refreshProjects();
+      setProjectPopup(false);
+      toast.success("Project Updated Successfully");
+    } catch (error) {
+      ErrorHandling(error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    POSTProject();
+
+    if (EditProject) {
+      PUTProject();
+    } else {
+      POSTProject();
+    }
   };
 
   return (

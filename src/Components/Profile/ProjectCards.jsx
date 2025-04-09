@@ -4,8 +4,8 @@ import { RxExternalLink, RxDotsVertical } from "react-icons/rx";
 import { Link } from "react-router";
 import useClickOutside from "../../Utils/useClickOutside";
 
-const ProjectCards = ({ Project }) => {
-  const { projectName, projectHeadline, projectGithub, projectLink } =
+const ProjectCards = ({ Project, DeleteHandler, EditData, EditPr }) => {
+  const { projectName, projectHeadline, projectGithub, projectLink, _id } =
     Project || {};
   const menuRef = useRef(null); //
 
@@ -16,6 +16,7 @@ const ProjectCards = ({ Project }) => {
   };
 
   useClickOutside(menuRef, toggleMenu);
+
   return (
     <div className="border border-gray-700 rounded-md flex justify-between items-center p-4 cursor-pointer">
       <div>
@@ -56,13 +57,19 @@ const ProjectCards = ({ Project }) => {
           >
             <ul className="text-gray-700">
               {/* Edit Action */}
-              <li className="cursor-pointer hover:bg-gray-100 p-2 rounded-md flex items-center gap-2">
+              <li
+                className="cursor-pointer hover:bg-gray-100 p-2 rounded-md flex items-center gap-2"
+                onClick={() => EditData(Project)}
+              >
                 <FaEdit />
                 Edit
               </li>
 
               {/* Delete Action */}
-              <li className="cursor-pointer hover:bg-gray-100 p-2 rounded-md flex items-center gap-2">
+              <li
+                className="cursor-pointer hover:bg-gray-100 p-2 rounded-md flex items-center gap-2"
+                onClick={() => DeleteHandler(_id)}
+              >
                 <FaTrashAlt />
                 Delete
               </li>

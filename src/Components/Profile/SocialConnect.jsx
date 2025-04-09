@@ -5,6 +5,7 @@ import { REACT_APP_BASE_URL } from "../../../envSample";
 import GithubRepo from "./GithubRepo";
 import toast from "react-hot-toast";
 import { ErrorHandling } from "../../Utils/ErrorHandling";
+import { BiUnlink } from "react-icons/bi";
 
 const SocialConnect = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -44,6 +45,18 @@ const SocialConnect = () => {
     }
   };
 
+  const DeleteGithub = async () => {
+    try {
+      const resp = await axios.delete(REACT_APP_BASE_URL + "/socialgithub", {
+        withCredentials: true,
+      });
+      setGithubData(null);
+      toast.success("UnLink Account Successfully");
+    } catch (error) {
+      ErrorHandling(error);
+    }
+  };
+
   useEffect(() => {
     GETGithubData();
   }, []);
@@ -51,20 +64,22 @@ const SocialConnect = () => {
     <div className="w-full px-6 ">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-4">
-        <p className="flex items-center gap-3 text-xl font-semibold">
-          <FaGithub />
-          GitHub
-        </p>
-        {/* <button
-          className="btn btn-sm btn-primary"
-          onClick={() => setIsEdit(!isEdit)}
-        >
-          {isEdit ? (
-            <FaSave className="text-lg" onClick={SaveHandler} />
-          ) : (
-            <FaEdit className="text-lg" />
+        <div className=" flex justify-between w-full">
+          <div className="flex items-center gap-3 text-xl font-semibold ">
+            <FaGithub />
+            GitHub
+          </div>
+
+          {githubData && (
+            <div
+              className=" btn-sm bg-white text-gray-800  cursor-pointer font-semibold rounded-lg flex items-center "
+              onClick={() => DeleteGithub()}
+            >
+              <BiUnlink className="text-lg" />
+              UnLink Account
+            </div>
           )}
-        </button> */}
+        </div>
       </div>
 
       {/* Input Field */}
@@ -110,7 +125,7 @@ const SocialConnect = () => {
         </div>
       ) : (
         <div className="flex flex-col gap-4">
-          <p>64 Contributions</p>
+          <p>Contributions</p>
           <div className="border flex justify-center py-6 rounded-lg border-gray-700">
             {githubData && githubData.githubContribution && (
               <img
