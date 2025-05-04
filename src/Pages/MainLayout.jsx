@@ -32,7 +32,7 @@ const MainLayout = () => {
           <div className="w-[20%] sticky top-0 h-sreen">
             <SideBar />
           </div>
-          <div className="w-[80%] p-10  overflow-y-scroll h-screen thin-scrollbar ">
+          <div className="w-[80%] p-8  overflow-y-scroll h-screen thin-scrollbar ">
             <Outlet />
           </div>
         </div>

@@ -9,6 +9,10 @@ module.exports = {
         "blue-btn-hover": "#1E3A8A",
       },
     },
+
+    backgroundImage: {
+      mytheme: "linear-gradient(to bottom, #00EFD1, #00ACEA)",
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
