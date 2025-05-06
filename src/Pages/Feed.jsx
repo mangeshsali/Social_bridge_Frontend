@@ -28,7 +28,7 @@ const Feed = () => {
     GETFeed();
   }, []);
 
-  console.log("r", posts);
+  console.log("r", posts.posts);
   return (
     <div className="w-full min-h-screen  items-center flex">
       <div className="  w-full min-h-screen flex   flex-col ">
@@ -36,15 +36,14 @@ const Feed = () => {
           <CreatePost />
         </div>
 
-        {!Array.isArray(posts) ? (
+        {!posts.posts ? (
           <div className="flex justify-center my-10">
             <p className="font-semibold text-lg">
               NO POSTS FOUND MAKE A CONNECTION FIRST
             </p>
           </div>
         ) : (
-          Array.isArray(posts) &&
-          posts.map((post) => (
+          posts.posts.map((post) => (
             <div key={post.id} className="mt-5">
               <PostCard postData={post} />
             </div>

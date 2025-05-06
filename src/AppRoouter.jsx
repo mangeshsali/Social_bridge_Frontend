@@ -9,6 +9,7 @@ import Profile from "./Pages/Profile";
 import Search from "./Pages/Search";
 import ChatPage from "./Pages/ChatPage";
 import Request from "./Pages/Request";
+import PostDetails from "./Pages/PostDetails";
 
 const AppRoouter = () => {
   return (
@@ -21,6 +22,7 @@ const AppRoouter = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/message" element={<ChatPage />} />
           <Route path="/feed" element={<Feed />} />
+          <Route path="/post/:postId" element={<PostDetails />} />
           <Route path="/request" element={<Request />} />
         </Route>
       </Route>
