@@ -10,6 +10,7 @@ import Search from "./Pages/Search";
 import ChatPage from "./Pages/ChatPage";
 import Request from "./Pages/Request";
 import PostDetails from "./Pages/PostDetails";
+import LandingPage from "./Pages/LandingPage";
 
 const AppRoouter = () => {
   return (
@@ -26,6 +27,7 @@ const AppRoouter = () => {
           <Route path="/request" element={<Request />} />
         </Route>
       </Route>
+      <Route path="/landing" element={<LandingPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
